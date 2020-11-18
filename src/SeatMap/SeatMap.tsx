@@ -1,18 +1,46 @@
 import React from 'react';
 
-import { config } from './Config';
-import { getUserPresence } from './GraphService';
-import withAuthProvider, { AuthComponentProps } from './AuthProvider';
+import { config } from '../Config';
+import { getUserPresence } from '../GraphService';
+import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
 
 import { Circle, ImageOverlay, MapContainer, Popup, Tooltip } from 'react-leaflet';
+import { UserPresence } from './UserPresence';
 
 
 interface SeatMapState {
   eventsLoaded: boolean;
   events: { [key: string]: string };
 }
+
+export interface UserStatus {
+  availability: string,
+  activity: string,
+}
+
+export interface SeatPosition {
+  x: number,
+  y: number
+}
+
+interface UserDefailInfo {
+  fullname?: string;
+  mail?: string;
+  phone?: string;
+}
+
+export interface UserInfo {
+  dataLoaded: boolean;
+
+  displayName: string;
+
+  userDetail?: UserDefailInfo;
+  seatPosition: SeatPosition;
+
+}
+
 
 
 class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
@@ -50,29 +78,39 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
     const L = require("leaflet");
     var imageBounds: [number, number][] = [[0, 0], [680, 640]];
 
+    var userPresence: UserInfo = {
+      dataLoaded: true,
+      displayName: "佐藤",
+      seatPosition: {
+        x: 109,
+        y: 80
+      }
+    }
+    var status: UserStatus = {
+      "availability": "DoNotDisturb",
+      "activity": "Presenting"
+    }
+
+    var userPresence1: UserInfo = {
+      dataLoaded: true,
+      displayName: "田中",
+      seatPosition: {
+        x: 109,
+        y: 160
+      }
+    }
+    var status1: UserStatus = {
+      "availability": "Available",
+      "activity": "Available"
+    }
+
+
     return (
       <><div>
         <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
           <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
-          <Circle
-            key="test"
-            center={[109, 80]}
-            fillColor="blue"
-            radius={25} >
-            <Tooltip key="test" permanent={true} direction={"center"} offset={[0, 0]} ><span>佐藤</span></Tooltip>
-            <Popup>佐藤です。</Popup>
-
-          </Circle>
-
-          <Circle
-            key="test"
-            center={[109, 160]}
-            fillColor="red"
-            pathOptions={{ "color": "red" }}
-            radius={25} >
-
-            <Tooltip key="test" permanent={true} direction={"center"} >田中</Tooltip>
-          </Circle>
+          <UserPresence {...userPresence}></UserPresence>
+          <UserPresence {...userPresence1}></UserPresence>
 
           <Circle
             key="test"
@@ -80,7 +118,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
             fillColor="red"
             pathOptions={{ "color": "red" }}
             radius={25} >
-
             <Tooltip key="test" permanent={true} direction={"center"} >佐藤畑</Tooltip>
           </Circle>
 

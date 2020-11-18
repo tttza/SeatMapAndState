@@ -10,7 +10,7 @@ import Welcome from './Welcome';
 import Calendar from './Calendar';
 import NewEvent from './NewEvent';
 import 'bootstrap/dist/css/bootstrap.css';
-import SeatMap from './SeatMap';
+import SeatMap from './SeatMap/SeatMap';
 
 class App extends Component<AuthComponentProps> {
   render() {
