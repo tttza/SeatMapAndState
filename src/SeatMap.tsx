@@ -1,34 +1,18 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import React, { ReactNode } from 'react';
-import { NavLink as RouterNavLink } from 'react-router-dom';
-import { Table } from 'reactstrap';
-import moment, { Moment } from 'moment-timezone';
-import { findOneIana } from "windows-iana";
-import { Event } from 'microsoft-graph';
+import React from 'react';
+
 import { config } from './Config';
 import { getUserPresence } from './GraphService';
 import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
-import Leaflet from 'leaflet';
-import { Circle, CircleMarker, ImageOverlay, MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
 
-import SeatMapImage from "./images/SeatMapImage.jpg"
+import { Circle, ImageOverlay, MapContainer, Popup, Tooltip } from 'react-leaflet';
+
 
 interface SeatMapState {
   eventsLoaded: boolean;
   events: { [key: string]: string };
 }
-
-const rectangle = [
-  [51.49, -0.08],
-  [51.5, -0.06],
-]
-
-const position = [51.505, -0.09]
-
-const blackOptions = { color: 'black' }
 
 
 class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
@@ -64,40 +48,12 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
   // <renderSnippet>
   render() {
     const L = require("leaflet");
-    // this.map = L.map('map', { crs: L.CRS.Simple });
-    // var bounds: [number, number][] = [[0, 399], [643, 0]]; // ここでは画像の解像度をboundsに設定する。
-    var bounds: [number, number][] = [[0, 0],
-    [680, 640]]; // ここでは画像の解像度をboundsに設定する。
-    // L.imageOverlay('seat.png', bounds).addTo(this.map); // 背景画像を設定する。
-    // L.circle([170, 170], { color: 'green', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("iwatsuki", { permanent: true, direction: 'center' }).openTooltip()
-    //   .bindPopup("iwatsuki <br />IT Support Department");
-    // L.circle([170, 290], { color: 'green', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("Name A", { permanent: true, direction: 'center' }).openTooltip();
-    // L.circle([170, 410], { color: 'green', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("Name B", { permanent: true, direction: 'center' }).openTooltip();
-    // L.circle([60, 170], { color: 'green', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("Name C", { permanent: true, direction: 'center' }).openTooltip();
-    // L.circle([60, 290], { color: 'green', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("Name D", { permanent: true, direction: 'center' }).openTooltip();
-    // L.circle([60, 410], { color: 'gray', radius: 35 }).addTo(this.map)
-    //   .bindTooltip("Name E", { permanent: true, direction: 'center' }).openTooltip();
-    // this.map.fitBounds(bounds); // 描画領域を設定する。
-
-
-
-    delete L.Icon.Default.prototype._getIconUrl;
-
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-      iconUrl: require("leaflet/dist/images/marker-icon.png"),
-      shadowUrl: require("leaflet/dist/images/marker-shadow.png")
-    });
+    var imageBounds: [number, number][] = [[0, 0], [680, 640]];
 
     return (
       <><div>
-        <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={bounds} bounds={bounds} crs={L.CRS.Simple}>
-          <ImageOverlay url="images/seat_map.svg" bounds={bounds}></ImageOverlay>
+        <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
+          <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
           <Circle
             key="test"
             center={[109, 80]}
