@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { config } from '../Config';
-import { getUserPresence } from '../GraphService';
+import { getUsersPresence, Presence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
@@ -11,8 +11,9 @@ import { UserPresence } from './UserPresence';
 
 
 interface SeatMapState {
-  eventsLoaded: boolean;
-  events: { [key: string]: string };
+  presenceLoaded: boolean;
+
+  usersPresence: Array<Presence>;
 }
 
 export interface UserStatus {
@@ -48,22 +49,23 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      eventsLoaded: false,
-      events: {}
+      presenceLoaded: false,
+      usersPresence: []
     };
   }
 
   async componentDidUpdate() {
-    if (this.props.user && !this.state.eventsLoaded) {
+    if (this.props.user && !this.state.presenceLoaded) {
       try {
         // Get the user's access token
         var accessToken = await this.props.getAccessToken(config.scopes);
 
-        // Get the user's events
-        var events = await getUserPresence(accessToken, this.props.user.timeZone);
+        var users = ["83889fdb-aa5a-4fcf-a937-3f3e3ab13d84", "1bfb5972-beb8-448f-b5b9-8133709de145"]
+
+        var usersPresence = await getUsersPresence(accessToken, users);
         this.setState({
-          eventsLoaded: true,
-          events: events
+          presenceLoaded: true,
+          usersPresence: usersPresence
         })
 
       }
@@ -124,8 +126,8 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         </MapContainer>
       </div>
         <div>
-          <div>{JSON.stringify(this.state.events["availability"])}</div>
-          <div>{JSON.stringify(this.state.events["activity"])}</div>
+          <div>{JSON.stringify(this.state.usersPresence[0])}</div>
+          <div>{JSON.stringify(this.state.usersPresence[1])}</div>
         </div></>
     );
   }

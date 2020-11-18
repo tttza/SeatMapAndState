@@ -8,6 +8,18 @@ import { PageCollection, PageIterator } from '@microsoft/microsoft-graph-client'
 
 var graph = require('@microsoft/microsoft-graph-client');
 
+export interface Request {
+  url: string,
+  method: "GET" | "POST" | "PUT" | "DELETE",
+  id: string
+}
+
+export interface Presence {
+  id: string,
+  availability: string | "Available" | "Offline" | "DoNotDisturb" | "PresenceUnknown",
+  activity: string | "Available" | "Offline" | "Presenting" | "PresenceUnknown"
+}
+
 function getAuthenticatedClient(accessToken: string) {
   // Initialize Graph client
   const client = graph.Client.init({
@@ -93,14 +105,54 @@ export async function createEvent(accessToken: string, newEvent: Event): Promise
 export async function getUserPresence(accessToken: string, id: string = ""): Promise<{}> {
   const client = getAuthenticatedClient(accessToken);
 
-  // GET /me/calendarview?startDateTime=''&endDateTime=''
-  // &$select=subject,organizer,start,end
-  // &$orderby=start/dateTime
-  // &$top=50
-  var response = await client.api('/users/1bfb5972-beb8-448f-b5b9-8133709de145/presence')
+  var response = await client.api(`/users/${id}/presence`)
     .version('beta')
     .get();
+  return response;
+}
+
+export async function getUsersPresence(accessToken: string, ids: Array<string>): Promise<Array<Presence>> {
+  var requests: Array<Request> = ids.map(id => (
+    {
+      url: `/users/${id}/presence`,
+      method: "GET",
+      id: id
+    }
+  )
+  )
+  var response = await postBatch(accessToken, requests)
+
+  var result: Array<Presence> = response.responses.map((res: { status: number; body: { id: any; availability: any; activity: any; }; id: any; }) => {
+    if (res.status == 200) {
+      return {
+        id: res.body.id,
+        availability: res.body.availability,
+        activity: res.body.activity
+      }
+    } else {
+      return {
+        id: res.id,
+        availability: "PresenceUnknown",
+        activity: "PresenceUnknown"
+      }
+    }
+  }
+  )
+
+  return result;
+}
+
+
+
+
+export async function postBatch(accessToken: string, requests: Array<Request>): Promise<{ [key: string]: any }> {
+  const client = getAuthenticatedClient(accessToken);
+
+  const $batch = { requests: requests };
+
+  let response = await client.api('/$batch')
+    .version('beta')
+    .post($batch);
 
   return response;
-
 }
