@@ -12,7 +12,7 @@ import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
 import Leaflet from 'leaflet';
-import { Circle, ImageOverlay, MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
+import { Circle, CircleMarker, ImageOverlay, MapContainer, Marker, Popup, TileLayer, Tooltip } from 'react-leaflet';
 
 import SeatMapImage from "./images/SeatMapImage.jpg"
 
@@ -66,7 +66,8 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
     const L = require("leaflet");
     // this.map = L.map('map', { crs: L.CRS.Simple });
     // var bounds: [number, number][] = [[0, 399], [643, 0]]; // ここでは画像の解像度をboundsに設定する。
-    var bounds: [number, number][] = [[0, 50], [50, 0]]; // ここでは画像の解像度をboundsに設定する。
+    var bounds: [number, number][] = [[0, 0],
+    [680, 640]]; // ここでは画像の解像度をboundsに設定する。
     // L.imageOverlay('seat.png', bounds).addTo(this.map); // 背景画像を設定する。
     // L.circle([170, 170], { color: 'green', radius: 35 }).addTo(this.map)
     //   .bindTooltip("iwatsuki", { permanent: true, direction: 'center' }).openTooltip()
@@ -95,7 +96,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
 
     return (
       <><div>
-        <MapContainer center={[25, 25]} zoom={4} scrollWheelZoom={false} style={{ height: "800px", width: "800px" }}>
+        <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={bounds} bounds={bounds} crs={L.CRS.Simple}>
           {/* <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -105,25 +106,36 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
               A pretty CSS3 popup. <br /> Easily customizable.
     </Popup>
           </Marker> */}
-          <ImageOverlay url="images/SeatMapImage.jpg" bounds={bounds}></ImageOverlay>
+          <ImageOverlay url="images/seat_map.svg" bounds={bounds}></ImageOverlay>
           <Circle
             key="test"
-            center={[4, 6]}
+            center={[109, 80]}
             fillColor="blue"
-            radius={250000} >
-            <Tooltip key="test" permanent={true} direction={"center"} >佐藤</Tooltip>
+            radius={25} >
+            <Tooltip key="test" permanent={true} direction={"center"} offset={[0, 0]} ><span>佐藤</span></Tooltip>
+
           </Circle>
 
-          <ImageOverlay url="images/SeatMapImage.jpg" bounds={bounds}></ImageOverlay>
           <Circle
             key="test"
-            center={[4, 16]}
+            center={[109, 160]}
             fillColor="red"
             pathOptions={{ "color": "red" }}
-            radius={250000} >
+            radius={25} >
 
             <Tooltip key="test" permanent={true} direction={"center"} >田中</Tooltip>
           </Circle>
+
+          <Circle
+            key="test"
+            center={[109, 280]}
+            fillColor="red"
+            pathOptions={{ "color": "red" }}
+            radius={25} >
+
+            <Tooltip key="test" permanent={true} direction={"center"} >佐藤畑</Tooltip>
+          </Circle>
+
         </MapContainer>
       </div>
         <div>
