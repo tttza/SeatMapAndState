@@ -67,7 +67,7 @@ export class UserPresence extends React.Component<UserInfo, UserStatus> {
             <Circle
                 ref={this.circleRef}
                 key="persence"
-                center={[this.props.seatPosition.x, this.props.seatPosition.y]}
+                center={[this.props.seatPosition.y, this.props.seatPosition.x]}
                 fillColor={this.circleColor}
                 color={this.circleColor}
                 radius={25} >
