@@ -22,7 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-src/Config.ts
+config/Config.ts
 
 # copy from https://raw.githubusercontent.com/facebook/react/master/.gitignore
 .DS_STORE

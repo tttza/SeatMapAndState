@@ -6,7 +6,7 @@ import { Table } from 'reactstrap';
 import moment, { Moment } from 'moment-timezone';
 import { findOneIana } from "windows-iana";
 import { Event } from 'microsoft-graph';
-import { config } from './Config';
+import { config } from '../config/Config';
 import { getUserWeekCalendar } from './GraphService';
 import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import CalendarDayRow from './CalendarDayRow';

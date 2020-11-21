@@ -6,7 +6,7 @@ import React from 'react';
 import { NavLink as RouterNavLink, Redirect } from 'react-router-dom';
 import { Button, Col, Form, FormGroup, Label, Input, Row } from 'reactstrap';
 import { Attendee, Event } from 'microsoft-graph';
-import { config } from './Config';
+import { config } from '../config/Config';
 import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import { createEvent } from './GraphService';
 

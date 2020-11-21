@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { config } from '../Config';
+import { config } from '../../config/Config';
 import { getUsersPresence, Presence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
