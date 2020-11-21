@@ -7,7 +7,7 @@ import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
 
-import { Circle, ImageOverlay, MapContainer, Popup, Tooltip } from 'react-leaflet';
+import { Circle, ImageOverlay, MapContainer, Tooltip } from 'react-leaflet';
 import { UserPresence } from './UserPresence';
 
 
@@ -62,8 +62,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         // Get the user's access token
         var accessToken = await this.props.getAccessToken(authConfig.scopes);
 
-        // var users = ["83889fdb-aa5a-4fcf-a937-3f3e3ab13d84", "1bfb5972-beb8-448f-b5b9-8133709de145"]
-
         let usersEmail = userTargetConfig.map(user => user.email)
         var users = await getUsersDetails(accessToken, usersEmail)
         users.forEach(user => user.id.match("@") ? console.warn("Not found: " + user.id) : null)
@@ -94,10 +92,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         y: 80
       }
     }
-    var status: UserStatus = {
-      "availability": "DoNotDisturb",
-      "activity": "Presenting"
-    }
 
     var userPresence1: UserInfo = {
       dataLoaded: true,
@@ -106,10 +100,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         x: 109,
         y: 160
       }
-    }
-    var status1: UserStatus = {
-      "availability": "Available",
-      "activity": "Available"
     }
 
 

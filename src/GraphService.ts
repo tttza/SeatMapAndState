@@ -157,32 +157,17 @@ export async function getUserPresence(accessToken: string, id: string = ""): Pro
 }
 
 export async function getUsersPresence(accessToken: string, ids: Array<string>): Promise<Array<Presence>> {
-  var requests: Array<Request> = ids.map(id => (
-    {
-      url: `/users/${id}/presence`,
-      method: "GET",
-      id: id
-    }
-  )
-  )
-  var response = await postBatch(accessToken, requests)
+  const client = getAuthenticatedClient(accessToken);
 
-  var result: Array<Presence> = response.responses.map((res: { status: number; body: { id: any; availability: any; activity: any; }; id: any; }) => {
-    if (res.status == 200) {
-      return {
-        id: res.body.id,
-        availability: res.body.availability,
-        activity: res.body.activity
-      }
-    } else {
-      return {
-        id: res.id,
-        availability: "PresenceUnknown",
-        activity: "PresenceUnknown"
-      }
-    }
-  }
-  )
+  // POST /me/events
+  // JSON representation of the new event is sent in the
+  // request body
+  let response = await client
+    .api('communications/getPresencesByUserId')
+    .version('beta')
+    .post({ ids: ids });
+
+  var result: Array<Presence> = response.value
 
   return result;
 }
