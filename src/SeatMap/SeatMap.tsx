@@ -52,9 +52,8 @@ export interface UserInfo {
 
 
 class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
-  presence0: React.RefObject<UserPresence>;
-  seatPositionService: SeatPositionService;
-
+  private presenceRefs: { [id: string]: React.RefObject<UserPresence> } = {};
+  private seatPositionService: SeatPositionService;
   private accessToken: string = "";
   users: UserInfo[] = [];
   constructor(props: any) {
@@ -64,7 +63,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
       usersPresence: []
     };
     this.seatPositionService = new SeatPositionService(null);
-    this.presence0 = React.createRef();
   }
 
   async componentDidMount() {
@@ -85,20 +83,21 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         displayName: user.surname,
         seatPosition: seatPosition
       } as UserInfo)
+      this.presenceRefs[user.id] = React.createRef()
     })
   }
 
   async componentDidUpdate() {
     if (this.props.user && !this.state.presenceLoaded) { }
     try {
-      // Get the user's access token
       var usersPresence = await getUsersPresence(this.accessToken, this.users.map(user => user.id));
       this.setState({
         presenceLoaded: true,
         usersPresence: usersPresence
       })
-      this.presence0.current?.setPresence(this.state.usersPresence[0])
-
+      usersPresence.forEach(presence => {
+        this.presenceRefs[presence.id].current?.setPresence(presence)
+      })
     }
     catch (err) { this.props.setError('ERROR', JSON.stringify(err)) };
   }
@@ -140,7 +139,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
           <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
           {this.users.map((preference: UserInfo) => {
             return (
-              <UserPresence {...preference}></UserPresence>
+              <UserPresence {...preference} ref={this.presenceRefs[preference.id]}></UserPresence>
             )
           })}
 
