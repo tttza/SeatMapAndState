@@ -6,6 +6,7 @@ export const authConfig = {
     'mailboxsettings.read',
     'calendars.readwrite',
     'Presence.Read',
-    'Presence.Read.All'
+    'Presence.Read.All',
+    'User.ReadBasic.All'
   ]
 };

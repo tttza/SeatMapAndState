@@ -5,6 +5,7 @@
 import moment, { Moment } from 'moment';
 import { Event } from 'microsoft-graph';
 import { PageCollection, PageIterator } from '@microsoft/microsoft-graph-client';
+import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 
 var graph = require('@microsoft/microsoft-graph-client');
 
@@ -18,6 +19,17 @@ export interface Presence {
   id: string,
   availability: string | "Available" | "Offline" | "DoNotDisturb" | "PresenceUnknown",
   activity: string | "Available" | "Offline" | "Presenting" | "PresenceUnknown"
+}
+
+
+export interface User {
+  id: string,
+  businessPhones: string,
+  displayName: string,
+  givenName: string,
+  mail: string,
+  surname: string,
+  userPrincipalName: string,
 }
 
 function getAuthenticatedClient(accessToken: string) {
@@ -42,6 +54,39 @@ export async function getUserDetails(accessToken: string) {
     .get();
 
   return user;
+}
+
+export async function getUsersDetails(accessToken: string, mails: string[]) {
+  var requests: Array<Request> = mails.map(mail => (
+    {
+      url: `/users/${mail}`,
+      method: "GET",
+      id: mail
+    }
+  )
+  )
+  var response = await postBatch(accessToken, requests)
+  var result: Array<User> = response.responses.map((res: any) => {
+    if (res.status == 200) {
+      return {
+        id: res.body.id,
+        businessPhones: res.body.businessPhones,
+        displayName: res.body.displayName,
+        givenName: res.body.givenName,
+        mail: res.body.mail,
+        surname: res.body.surname,
+        userPrincipalName: res.body.userPrincipalName,
+      }
+    } else {
+      return {
+        id: res.id
+      }
+    }
+  }
+  )
+
+  return result;
+
 }
 // </graphServiceSnippet1>
 

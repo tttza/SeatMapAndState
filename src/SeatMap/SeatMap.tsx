@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { authConfig } from '../config/AuthConfig';
-import { getUsersPresence, Presence } from '../GraphService';
+import { userTargetConfig } from '../config/UserTargetConfig';
+import { getUsersDetails, getUsersPresence, Presence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
@@ -45,7 +46,6 @@ export interface UserInfo {
 
 
 class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
-  map: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -60,9 +60,13 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         // Get the user's access token
         var accessToken = await this.props.getAccessToken(authConfig.scopes);
 
-        var users = ["83889fdb-aa5a-4fcf-a937-3f3e3ab13d84", "1bfb5972-beb8-448f-b5b9-8133709de145"]
+        // var users = ["83889fdb-aa5a-4fcf-a937-3f3e3ab13d84", "1bfb5972-beb8-448f-b5b9-8133709de145"]
 
-        var usersPresence = await getUsersPresence(accessToken, users);
+        let usersEmail = userTargetConfig.map(user => user.email)
+        var users = await getUsersDetails(accessToken, usersEmail)
+        users.forEach(user => user.id.match("@") ? console.warn("Not found: " + user.id) : null)
+        users = users.filter(user => !user.id.match("@"))
+        var usersPresence = await getUsersPresence(accessToken, users.map(user => user.id));
         this.setState({
           presenceLoaded: true,
           usersPresence: usersPresence
