@@ -133,7 +133,16 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
       <>
         <div>
 
-          <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "100%", zIndex: 0 }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
+          <MapContainer
+            center={[320, 340]}
+            zoom={0}
+            scrollWheelZoom={true}
+            attributionControl={false}
+            style={{ height: "800px", width: "100%", zIndex: 0 }}
+            maxBounds={imageBounds}
+            bounds={imageBounds}
+            crs={L.CRS.Simple}>
+
             <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
             {this.users.map((preference: UserInfo) => {
               return (
