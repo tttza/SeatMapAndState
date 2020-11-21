@@ -3,7 +3,7 @@
 import React from 'react';
 import { PublicClientApplication } from '@azure/msal-browser';
 
-import { config } from '../config/Config';
+import { authConfig } from '../config/AuthConfig';
 import { getUserDetails } from './GraphService';
 
 export interface AuthComponentProps {
@@ -38,8 +38,8 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
       // Initialize the MSAL application object
       this.publicClientApplication = new PublicClientApplication({
         auth: {
-          clientId: config.appId,
-          redirectUri: config.redirectUri
+          clientId: authConfig.appId,
+          redirectUri: authConfig.redirectUri
         },
         cache: {
           cacheLocation: "sessionStorage",
@@ -76,7 +76,7 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
         // Login via popup
         await this.publicClientApplication.loginPopup(
           {
-            scopes: config.scopes,
+            scopes: authConfig.scopes,
             prompt: "select_account"
           });
 
@@ -132,7 +132,7 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
     // <getUserProfileSnippet>
     async getUserProfile() {
       try {
-        var accessToken = await this.getAccessToken(config.scopes);
+        var accessToken = await this.getAccessToken(authConfig.scopes);
 
         if (accessToken) {
           // Get the user's profile from Graph
@@ -149,7 +149,7 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
           });
         }
       }
-      catch(err) {
+      catch (err) {
         this.setState({
           isAuthenticated: false,
           user: {},

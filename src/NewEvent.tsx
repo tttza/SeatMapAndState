@@ -6,7 +6,7 @@ import React from 'react';
 import { NavLink as RouterNavLink, Redirect } from 'react-router-dom';
 import { Button, Col, Form, FormGroup, Label, Input, Row } from 'reactstrap';
 import { Attendee, Event } from 'microsoft-graph';
-import { config } from '../config/Config';
+import { authConfig } from '../config/AuthConfig';
 import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import { createEvent } from './GraphService';
 
@@ -54,8 +54,8 @@ class NewEvent extends React.Component<AuthComponentProps, NewEventState> {
   // Requires a subject, start, and end
   isFormDisabled(): boolean {
     return this.state.subject.length === 0 ||
-           this.state.start.length === 0 ||
-           this.state.end.length === 0;
+      this.state.start.length === 0 ||
+      this.state.end.length === 0;
   }
 
   // Creates the event when user clicks Create
@@ -99,7 +99,7 @@ class NewEvent extends React.Component<AuthComponentProps, NewEventState> {
 
     try {
       // Get the user's access token
-      var accessToken = await this.props.getAccessToken(config.scopes);
+      var accessToken = await this.props.getAccessToken(authConfig.scopes);
 
       // Create the event
       await createEvent(accessToken, newEvent);

@@ -6,7 +6,7 @@ import { Table } from 'reactstrap';
 import moment, { Moment } from 'moment-timezone';
 import { findOneIana } from "windows-iana";
 import { Event } from 'microsoft-graph';
-import { config } from '../config/Config';
+import { authConfig } from '../config/AuthConfig';
 import { getUserWeekCalendar } from './GraphService';
 import withAuthProvider, { AuthComponentProps } from './AuthProvider';
 import CalendarDayRow from './CalendarDayRow';
@@ -28,13 +28,11 @@ class Calendar extends React.Component<AuthComponentProps, CalendarState> {
     };
   }
 
-  async componentDidUpdate()
-  {
-    if (this.props.user && !this.state.eventsLoaded)
-    {
+  async componentDidUpdate() {
+    if (this.props.user && !this.state.eventsLoaded) {
       try {
         // Get the user's access token
-        var accessToken = await this.props.getAccessToken(config.scopes);
+        var accessToken = await this.props.getAccessToken(authConfig.scopes);
 
         // Convert user's Windows time zone ("Pacific Standard Time")
         // to IANA format ("America/Los_Angeles")
@@ -92,31 +90,31 @@ class Calendar extends React.Component<AuthComponentProps, CalendarState> {
                 <CalendarDayRow
                   date={sunday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === sunday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === sunday.day())} />
                 <CalendarDayRow
                   date={monday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === monday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === monday.day())} />
                 <CalendarDayRow
                   date={tuesday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === tuesday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === tuesday.day())} />
                 <CalendarDayRow
                   date={wednesday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === wednesday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === wednesday.day())} />
                 <CalendarDayRow
                   date={thursday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === thursday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === thursday.day())} />
                 <CalendarDayRow
                   date={friday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === friday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === friday.day())} />
                 <CalendarDayRow
                   date={saturday}
                   timeFormat={this.props.user.timeFormat}
-                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === saturday.day()) } />
+                  events={this.state.events.filter(event => moment(event.start?.dateTime).day() === saturday.day())} />
               </tbody>
             </Table>
           </div>

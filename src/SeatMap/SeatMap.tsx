@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { config } from '../../config/Config';
+import { authConfig } from '../../config/AuthConfig';
 import { getUsersPresence, Presence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
@@ -58,7 +58,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
     if (this.props.user && !this.state.presenceLoaded) {
       try {
         // Get the user's access token
-        var accessToken = await this.props.getAccessToken(config.scopes);
+        var accessToken = await this.props.getAccessToken(authConfig.scopes);
 
         var users = ["83889fdb-aa5a-4fcf-a937-3f3e3ab13d84", "1bfb5972-beb8-448f-b5b9-8133709de145"]
 
