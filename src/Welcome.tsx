@@ -19,7 +19,6 @@ interface WelcomeState {
 }
 
 function WelcomeContent(props: WelcomeProps) {
-  // If authenticated, greet the user
   if (props.isAuthenticated) {
     return (
       <div>
@@ -29,7 +28,6 @@ function WelcomeContent(props: WelcomeProps) {
     );
   }
 
-  // Not authenticated, present a sign in button
   return <Button color="primary" onClick={props.authButtonMethod}>Click here to sign in</Button>;
 }
 
@@ -37,9 +35,9 @@ export default class Welcome extends React.Component<WelcomeProps, WelcomeState>
   render() {
     return (
       <Jumbotron>
-        <h1>React Graph Tutorial</h1>
+        <h1>WAS</h1>
+        <h4>Working Assistant System for the better life.</h4>
         <p className="lead">
-          This sample app shows how to use the Microsoft Graph API to access Outlook and OneDrive data from React
         </p>
         <WelcomeContent
           isAuthenticated={this.props.isAuthenticated}

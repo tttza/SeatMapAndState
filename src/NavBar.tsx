@@ -113,23 +113,17 @@ export default class NavBar extends React.Component<NavBarProps, NavBarState> {
       <div>
         <Navbar color="dark" dark expand="md" fixed="top">
           <Container>
-            <NavbarBrand href="/">React Graph Tutorial</NavbarBrand>
+            <NavbarBrand href="/"></NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="mr-auto" navbar>
                 <NavItem>
                   <RouterNavLink to="/" className="nav-link" exact>Home</RouterNavLink>
                 </NavItem>
-                {calendarLink}
                 {seatMapLink}
+                {calendarLink}
               </Nav>
               <Nav className="justify-content-end" navbar>
-                <NavItem>
-                  <NavLink href="https://developer.microsoft.com/graph/docs/concepts/overview" target="_blank">
-                    <i className="fas fa-external-link-alt mr-1"></i>
-                    Docs
-                  </NavLink>
-                </NavItem>
                 <AuthNavItem
                   isAuthenticated={this.props.isAuthenticated}
                   authButtonMethod={this.props.authButtonMethod}

@@ -109,55 +109,25 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
     const L = require("leaflet");
     var imageBounds: [number, number][] = [[0, 0], [680, 640]];
 
-
-    // var userPresence: UserInfo = {
-    //   dataLoaded: true,
-    //   displayName: "佐藤",
-    //   seatPosition: {
-    //     x: 109,
-    //     y: 80
-    //   }
-    // }
-
-    // var userPresence1: UserInfo = {
-    //   dataLoaded: true,
-    //   displayName: "田中",
-    //   seatPosition: {
-    //     x: 109,
-    //     y: 160
-    //   }
-    // }
-
-    // const UsersPreference = (preferences) => {
-    //   return
-    // };
-
-
     return (
-      <><div>
-        <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
-          <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
-          {this.users.map((preference: UserInfo) => {
-            return (
-              <UserPresence {...preference} ref={this.presenceRefs[preference.id]}></UserPresence>
-            )
-          })}
+      <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
+        <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
+        {this.users.map((preference: UserInfo) => {
+          return (
+            <UserPresence {...preference} ref={this.presenceRefs[preference.id]}></UserPresence>
+          )
+        })}
 
-          <Circle
-            key="test"
-            center={[109, 280]}
-            fillColor="red"
-            pathOptions={{ "color": "red" }}
-            radius={25}>
-            <Tooltip key="test" permanent={true} direction={"center"}>佐藤畑</Tooltip>
-          </Circle>
+        <Circle
+          key="test"
+          center={[109, 280]}
+          fillColor="red"
+          pathOptions={{ "color": "red" }}
+          radius={25}>
+          <Tooltip key="test" permanent={true} direction={"center"}>佐藤畑</Tooltip>
+        </Circle>
 
-        </MapContainer>
-      </div>
-        <div>
-          <div>{JSON.stringify(this.state.usersPresence[0])}</div>
-          <div>{JSON.stringify(this.state.usersPresence[1])}</div>
-        </div></>
+      </MapContainer>
     );
   }
   // </renderSnippet>
