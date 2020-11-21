@@ -49,7 +49,7 @@ export class SeatPositionService extends React.Component {
         )
     }
 
-    async getSeatPosition(seatId: string): Promise<SeatPosition | null> {
+    getSeatPosition(seatId: string): SeatPosition | null {
         if (seatId in this.seatPositionMap) {
             return this.seatPositionMap[seatId];
         } else {
