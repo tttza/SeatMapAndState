@@ -46,12 +46,14 @@ export interface UserInfo {
 
 
 class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
+  presence0: React.RefObject<UserPresence>;
   constructor(props: any) {
     super(props);
     this.state = {
       presenceLoaded: false,
       usersPresence: []
     };
+    this.presence0 = React.createRef();
   }
 
   async componentDidUpdate() {
@@ -71,6 +73,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
           presenceLoaded: true,
           usersPresence: usersPresence
         })
+        this.presence0.current?.setPresence(this.state.usersPresence[0])
 
       }
       catch (err) {
@@ -78,7 +81,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
       }
     }
   }
-
   // <renderSnippet>
   render() {
     const L = require("leaflet");
@@ -115,7 +117,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
       <><div>
         <MapContainer center={[320, 340]} zoom={0} scrollWheelZoom={true} style={{ height: "800px", width: "auto" }} maxBounds={imageBounds} bounds={imageBounds} crs={L.CRS.Simple}>
           <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
-          <UserPresence {...userPresence}></UserPresence>
+          <UserPresence {...userPresence} ref={this.presence0}></UserPresence>
           <UserPresence {...userPresence1}></UserPresence>
 
           <Circle

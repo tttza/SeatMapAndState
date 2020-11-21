@@ -17,8 +17,8 @@ export interface Request {
 
 export interface Presence {
   id: string,
-  availability: string | "Available" | "Offline" | "DoNotDisturb" | "PresenceUnknown",
-  activity: string | "Available" | "Offline" | "Presenting" | "PresenceUnknown"
+  availability: string | "Available" | "Away" | "Busy" | "Offline" | "DoNotDisturb" | "PresenceUnknown",
+  activity: string | "Available" | "Away" | "Offline" | "InAMeeting" | "Presenting" | "PresenceUnknown"
 }
 
 

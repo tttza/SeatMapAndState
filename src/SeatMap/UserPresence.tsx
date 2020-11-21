@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { authConfig } from '../config/AuthConfig';
-import { getUserPresence } from '../GraphService';
+import { getUserPresence, Presence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
 import 'leaflet/dist/leaflet.css';
 
-import { Circle, ImageOverlay, MapContainer, Popup, Tooltip } from 'react-leaflet';
+import { Circle, CircleProps, ImageOverlay, MapContainer, Popup, Tooltip } from 'react-leaflet';
 import { UserInfo, UserStatus } from './SeatMap';
 
 
@@ -15,33 +15,68 @@ import { UserInfo, UserStatus } from './SeatMap';
 
 
 export class UserPresence extends React.Component<UserInfo, UserStatus> {
+
+    circleRef?: React.RefObject<any> = React.createRef();
+    circleColor: string = "grey";
     constructor(props: any) {
         super(props);
         this.state = {
             availability: "Offline",
             activity: "Offline"
         }
+
     }
 
     async componentDidUpdate() {
+
         if (this.props && !this.props.dataLoaded) {
 
         }
     }
 
+    async setPresence(presence: Presence) {
+        this.setState({
+            availability: presence.availability,
+            activity: presence.activity
+        })
+        switch (presence.availability) {
+            case "Available":
+                this.circleColor = "green"
+                break;
+            case "Away":
+                this.circleColor = "yellow"
+                break;
+
+            case "Offline":
+            case "PresenceUnknown":
+                this.circleColor = "grey"
+                break;
+            default:
+                this.circleColor = "red"
+                break;
+        }
+        this.circleRef?.current.setStyle({
+            color: this.circleColor,
+            fillColor: this.circleColor,
+        })
+    }
+
     // <renderSnippet>
     render() {
         return (
-            <div>
-                <Circle
-                    key="persence"
-                    center={[this.props.seatPosition.x, this.props.seatPosition.y]}
-                    fillColor="blue"
-                    radius={25} >
-                    <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.displayName}</Tooltip>
-                    <Popup>{this.props.displayName}です。</Popup>
-                </Circle>
-            </div>
+            <Circle
+                ref={this.circleRef}
+                key="persence"
+                center={[this.props.seatPosition.x, this.props.seatPosition.y]}
+                fillColor={this.circleColor}
+                color={this.circleColor}
+                radius={25} >
+                <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.displayName}</Tooltip>
+                <Popup>{this.props.displayName}です。
+                    {this.state.activity}です。
+
+                    </Popup>
+            </Circle>
         );
     }
     // </renderSnippet>
