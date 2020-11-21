@@ -3,7 +3,7 @@
 import React from 'react';
 import { PublicClientApplication } from '@azure/msal-browser';
 
-import { authConfig } from '../config/AuthConfig';
+import { authConfig } from './config/AuthConfig';
 import { getUserDetails } from './GraphService';
 
 export interface AuthComponentProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { authConfig } from '../../config/AuthConfig';
+import { authConfig } from '../config/AuthConfig';
 import { getUserPresence } from '../GraphService';
 import withAuthProvider, { AuthComponentProps } from '../AuthProvider';
 import './SeatMap.css';
