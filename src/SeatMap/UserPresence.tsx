@@ -72,10 +72,20 @@ export class UserPresence extends React.Component<UserInfo, UserStatus> {
                 color={this.circleColor}
                 radius={25} >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.displayName}</Tooltip>
-                <Popup>{this.props.displayName}です。
-                    {this.state.activity}です。
+                <Popup>
+                    <h3>{this.props.userDetail?.fullname}</h3>
+                    <table style={{ alignItems: "end" }}>
+                        <tr>
+                            <td>状態:</td> <td>{this.state.availability}</td>
+                        </tr>
+                        {this.state.availability !== this.state.activity ?
+                            (<tr>
+                                <td>詳細:</td> <td>{this.state.activity}</td>
+                            </tr>) : null
+                        }
 
-                    </Popup>
+                    </table>
+                </Popup>
             </Circle>
         );
     }

@@ -34,7 +34,6 @@ export interface SeatPosition {
 
 interface UserDefailInfo {
   fullname?: string;
-  mail?: string;
   phone?: string;
 }
 
@@ -44,7 +43,7 @@ export interface UserInfo {
   id: string;
   displayName: string;
 
-  email: string;
+  mail: string;
 
   seatId: string;
 
@@ -89,7 +88,10 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         id: user.id,
         key: user.id,
         displayName: user.surname,
-        seatPosition: seatPosition
+        seatPosition: seatPosition,
+        userDetail: {
+          fullname: user.displayName,
+        }
       } as UserInfo)
       this.presenceRefs[user.id] = React.createRef()
       return;
