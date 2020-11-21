@@ -74,13 +74,13 @@ export class UserPresence extends React.Component<UserInfo, UserStatus> {
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.displayName}</Tooltip>
                 <Popup>
                     <h3>{this.props.userDetail?.fullname}</h3>
-                    <table style={{ alignItems: "end" }}>
+                    <table>
                         <tr>
-                            <td>状態:</td> <td>{this.state.availability}</td>
+                            <th>状態:</th> <td>{this.state.availability}</td>
                         </tr>
                         {this.state.availability !== this.state.activity ?
                             (<tr>
-                                <td>詳細:</td> <td>{this.state.activity}</td>
+                                <th>詳細:</th> <td>{this.state.activity}</td>
                             </tr>) : null
                         }
 
