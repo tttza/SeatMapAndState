@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import React from 'react';
 import { PublicClientApplication } from '@azure/msal-browser';
-
+import { Providers, SimpleProvider, ProviderState } from '@microsoft/mgt';
 import { authConfig } from './config/AuthConfig';
 import { getUserDetails } from './GraphService';
 
@@ -48,14 +48,18 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
       });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
       // If MSAL already has an account, the user
       // is already logged in
       const accounts = this.publicClientApplication.getAllAccounts();
 
       if (accounts && accounts.length > 0) {
         // Enhance user object with data from Graph
-        this.getUserProfile();
+        await this.getUserProfile();
+      }
+      Providers.globalProvider = new SimpleProvider(this.getAccessToken.bind(this), this.login.bind(this), this.logout.bind(this));
+      if (this.state.isAuthenticated) {
+        Providers.globalProvider.setState(ProviderState.SignedIn)
       }
     }
 
@@ -82,8 +86,10 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
 
         // After login, get the user's profile
         await this.getUserProfile();
+        Providers.globalProvider.setState(ProviderState.SignedIn)
       }
       catch (err) {
+        console.error(err)
         this.setState({
           isAuthenticated: false,
           user: {},
@@ -92,8 +98,9 @@ export default function withAuthProvider<T extends React.Component<AuthComponent
       }
     }
 
-    logout() {
+    async logout() {
       this.publicClientApplication.logout();
+      Providers.globalProvider.setState(ProviderState.SignedOut)
     }
 
     async getAccessToken(scopes: string[]): Promise<string> {

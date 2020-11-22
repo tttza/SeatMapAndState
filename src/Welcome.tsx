@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Login } from '@microsoft/mgt-react';
 // <WelcomeSnippet>
 import React from 'react';
 import {
@@ -28,13 +29,13 @@ function WelcomeContent(props: WelcomeProps) {
     );
   }
 
-  return <Button color="primary" onClick={props.authButtonMethod}>Click here to sign in</Button>;
+  return (null);
 }
 
 export default class Welcome extends React.Component<WelcomeProps, WelcomeState> {
   render() {
     return (
-      <Jumbotron>
+      <><Jumbotron>
         <h1>WAS</h1>
         <h4>Working Assistant System for the better life.</h4>
         <p className="lead">
@@ -44,6 +45,7 @@ export default class Welcome extends React.Component<WelcomeProps, WelcomeState>
           user={this.props.user}
           authButtonMethod={this.props.authButtonMethod} />
       </Jumbotron>
+        <Login />  </>
     );
   }
 }
