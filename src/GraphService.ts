@@ -186,3 +186,18 @@ export async function postBatch(accessToken: string, requests: Array<Request>): 
 
   return response;
 }
+
+export async function getUserPhoto(accessToken: string, id: string, size = "120x120") {
+  const client = getAuthenticatedClient(accessToken);
+
+  // POST /me/events
+  // JSON representation of the new event is sent in the
+  // request body
+  let response = await client
+    // .api(`/users/${id}/photos/${size}`)
+    .api(`/users/${id}/photos/${size}/$value`)
+    .version('beta')
+    .get();
+
+  return response;
+}

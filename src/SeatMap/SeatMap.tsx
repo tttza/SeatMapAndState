@@ -39,7 +39,6 @@ interface UserDefailInfo {
 
 export interface UserInfo {
   dataLoaded: boolean;
-  key: string;
   id: string;
   displayName: string;
 
@@ -86,7 +85,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
       this.users.push({
         dataLoaded: false,
         id: user.id,
-        key: user.id,
         displayName: user.surname,
         seatPosition: seatPosition,
         userDetail: {
@@ -113,7 +111,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
   async componentDidUpdate() {
     if (this.state.presenceLoaded) {
       this.usersPresence.forEach(presence => {
-        this.presenceRefs[presence.id].current?.setPresence(presence)
+        this.presenceRefs[presence.id].current?.updatePresence(presence)
       })
     }
   }
@@ -148,7 +146,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
             <ImageOverlay url="images/seat_map.svg" bounds={imageBounds}></ImageOverlay>
             {this.users.map((preference: UserInfo) => {
               return (
-                <UserPresence {...preference} ref={this.presenceRefs[preference.id]}></UserPresence>
+                <UserPresence key={preference.id} accessToken={this.accessToken} userInfo={preference} ref={this.presenceRefs[preference.id]}></UserPresence>
               );
             })}
 
@@ -171,7 +169,7 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
         </div>
         <IconButton size="small" onClick={async () => { await this.updateUserPresence() }}>
           <RefreshIcon fontSize="inherit" />
-            最終更新時刻: {this.state.lastUpdated?.toLocaleString()}
+          最終更新時刻: {this.state.lastUpdated?.toLocaleString()}
         </IconButton>
       </>
     );

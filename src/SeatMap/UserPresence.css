@@ -1,0 +1,33 @@
+.title {
+    text-align: center;
+}
+
+.icon {
+    border-radius: 50%;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    display: inline-flex;
+}
+
+.icon a {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: aliceblue;
+    text-align: center;
+    position: relative;
+    line-height: 80px;
+    font-size: medium;
+}
+
+.user-badge {
+    text-align: center;
+    margin: 10px;
+}
+
+.user-info-table {
+    margin: 10px;
+    font-size: large;
+}
