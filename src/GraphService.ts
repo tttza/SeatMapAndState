@@ -30,6 +30,7 @@ export interface User {
   mail: string,
   surname: string,
   userPrincipalName: string,
+  dept?: string,
 }
 
 function getAuthenticatedClient(accessToken: string) {
@@ -76,6 +77,7 @@ export async function getUsersDetails(accessToken: string, mails: string[]) {
         mail: res.body.mail,
         surname: res.body.surname,
         userPrincipalName: res.body.userPrincipalName,
+        dept: res.body.department
       }
     } else {
       return {

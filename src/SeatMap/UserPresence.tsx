@@ -1,11 +1,15 @@
+import MailOutline from '@material-ui/icons/MailOutline';
+import Button from '@material-ui/core/Button';
+import { Tooltip as ReactTooltip } from '@material-ui/core';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
-import { Circle, CircleMarker, Marker, Popup, Tooltip } from 'react-leaflet';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { Circle, Popup, Tooltip } from 'react-leaflet';
 import { getUserPhoto, Presence } from '../GraphService';
 import { UserInfo, UserStatus } from './SeatMap';
 import './SeatMap.css';
-import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-component';
-import './UserPresence.css'
+import './UserPresence.css';
+// import ReactTooltip from 'react-tooltip';
 
 interface UserPresenceProps {
     key: string;
@@ -97,6 +101,9 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
             >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
                 <Popup>
+                    {this.props.userInfo.userDetail?.dept ?
+                        <div className="sub-title">{this.props.userInfo.userDetail.dept}</div> :
+                        null}
                     <h3 className="title">{this.props.userInfo.userDetail?.fullname}</h3>
                     <div className="user-badge">
                         <LazyLoadComponent>
@@ -113,8 +120,25 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                             </tr>) : null
                         }
                     </table>
+                    <div className="action-list">
+                        <ReactTooltip title={<h6>Teamsでチャットする</h6>}>
+                            <a target="_blank"
+                                href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.userInfo.mail}`}
+                            >
+                                <img src="icons/Teams-24x24.png" />
+                            </a>
+                        </ReactTooltip>
+                        <ReactTooltip title={<h6>メールする</h6>} >
+                            <a target="_blank"
+                                href={`mailto:${this.props.userInfo.mail}`}
+                                data-tip="メールする"
+                            >
+                                <MailOutline />
+                            </a>
+                        </ReactTooltip>
+                    </div>
                 </Popup >
-            </Circle>
+            </Circle >
         );
     }
     // </renderSnippet>
