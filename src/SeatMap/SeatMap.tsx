@@ -134,7 +134,6 @@ class SeatMap extends React.Component<AuthComponentProps, SeatMapState> {
     return (
       <>
         <div>
-
           <MapContainer
             center={[320, 340]}
             zoom={0}

@@ -9,6 +9,7 @@ import { getUserPhoto, Presence } from '../GraphService';
 import { UserInfo, UserStatus } from './SeatMap';
 import './SeatMap.css';
 import './UserPresence.css';
+import { Agenda } from '@microsoft/mgt-react';
 // import ReactTooltip from 'react-tooltip';
 
 interface UserPresenceProps {
@@ -100,42 +101,54 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                 radius={25}
             >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
-                <Popup>
-                    {this.props.userInfo.userDetail?.dept ?
-                        <div className="sub-title">{this.props.userInfo.userDetail.dept}</div> :
-                        null}
-                    <h3 className="title">{this.props.userInfo.userDetail?.fullname}</h3>
-                    <div className="user-badge">
-                        <LazyLoadComponent>
-                            <UserPhoto token={this.props.accessToken} id={this.props.userInfo.id} userName={this.props.userInfo.displayName} />
-                        </LazyLoadComponent>
-                    </div>
-                    <table className="user-info-table">
-                        <tr>
-                            <th>状態:</th> <td>{this.state.userStatus.availability}</td>
-                        </tr>
-                        {this.state.userStatus.availability !== this.state.userStatus.activity ?
-                            (<tr>
-                                <th>詳細:</th> <td>{this.state.userStatus.activity}</td>
-                            </tr>) : null
-                        }
-                    </table>
-                    <div className="action-list">
-                        <ReactTooltip title={<h6>Teamsでチャットする</h6>}>
-                            <a target="_blank"
-                                href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.userInfo.mail}`}
-                            >
-                                <img src="icons/Teams-24x24.png" />
-                            </a>
-                        </ReactTooltip>
-                        <ReactTooltip title={<h6>メールする</h6>} >
-                            <a target="_blank"
-                                href={`mailto:${this.props.userInfo.mail}`}
-                                data-tip="メールする"
-                            >
-                                <MailOutline />
-                            </a>
-                        </ReactTooltip>
+                <Popup maxWidth={500}>
+                    <div style={{ flex: "auto", height: "200px", width: "350px" }}>
+                        <div style={{ display: "flex-inline", float: "left", width: "150px" }}>
+                            {this.props.userInfo.userDetail?.dept ?
+                                <div className="sub-title">{this.props.userInfo.userDetail.dept}</div> :
+                                null}
+                            <h3 className="title">{this.props.userInfo.userDetail?.fullname}</h3>
+                            <div className="user-badge">
+                                <LazyLoadComponent>
+                                    <UserPhoto token={this.props.accessToken} id={this.props.userInfo.id} userName={this.props.userInfo.displayName} />
+                                </LazyLoadComponent>
+                            </div>
+                            <table className="user-info-table">
+                                <tbody>
+                                    <tr>
+                                        <th>状態:</th> <td>{this.state.userStatus.availability}</td>
+                                    </tr>
+                                    {this.state.userStatus.availability !== this.state.userStatus.activity ?
+                                        (<tr>
+                                            <th>詳細:</th> <td>{this.state.userStatus.activity}</td>
+                                        </tr>) : null
+                                    }
+                                </tbody>
+                            </table>
+                            <div className="action-list">
+                                <ReactTooltip title={<h6>Teamsでチャットする</h6>}>
+                                    <a target="_blank"
+                                        href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.userInfo.mail}`}
+                                    >
+                                        <img src="icons/Teams-24x24.png" />
+                                    </a>
+                                </ReactTooltip>
+                                <ReactTooltip title={<h6>メールする</h6>} >
+                                    <a target="_blank"
+                                        href={`mailto:${this.props.userInfo.mail}`}
+                                        data-tip="メールする"
+                                    >
+                                        <MailOutline />
+                                    </a>
+                                </ReactTooltip>
+                            </div>
+                        </div>
+                        <div style={{ display: "flex-inline", float: "right", width: "200px" }}>
+                            <h6>Schedule:</h6>
+                            {/* <Agenda eventQuery={`/users/${this.props.userInfo.id}/calendarView?$orderby=start/dateTime&startdatetime=2020-11-22T15:00:00.000Z&enddatetime=2020-11-25T15:00:00.000Z`} /> */}
+                            {/* <Agenda eventQuery="/me/calendarview?$orderby=start/dateTime&startdatetime=2020-11-22T15:00:00.000Z&enddatetime=2020-11-25T15:00:00.000Z" /> */}
+                            <Agenda />
+                        </div>
                     </div>
                 </Popup >
             </Circle >

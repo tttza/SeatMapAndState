@@ -7,6 +7,10 @@ export const authConfig = {
     'calendars.readwrite',
     'Presence.Read',
     'Presence.Read.All',
-    'User.ReadBasic.All'
+    'User.ReadBasic.All',
+    'calendars.read',
+    'openid',
+    'profile',
+    'people.read'
   ]
 };
