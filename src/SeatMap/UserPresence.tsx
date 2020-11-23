@@ -1,6 +1,6 @@
-import MailOutline from '@material-ui/icons/MailOutline';
-import Button from '@material-ui/core/Button';
 import { Tooltip as ReactTooltip } from '@material-ui/core';
+import MailOutline from '@material-ui/icons/MailOutline';
+import { Agenda } from '@microsoft/mgt-react';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
@@ -9,7 +9,6 @@ import { getUserPhoto, Presence } from '../GraphService';
 import { UserInfo, UserStatus } from './SeatMap';
 import './SeatMap.css';
 import './UserPresence.css';
-import { Agenda } from '@microsoft/mgt-react';
 // import ReactTooltip from 'react-tooltip';
 
 interface UserPresenceProps {
@@ -91,6 +90,9 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
 
 
         const center: [number, number] = [this.props.userInfo.seatPosition.y, this.props.userInfo.seatPosition.x]
+        const eventStartTime = new Date();
+        const eventEndTime = new Date();
+        eventEndTime.setDate(eventStartTime.getDate() + 2)
         return (
             <Circle
                 ref={this.circleRef}
@@ -143,11 +145,9 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                                 </ReactTooltip>
                             </div>
                         </div>
-                        <div style={{ display: "flex-inline", float: "right", width: "200px" }}>
+                        <div style={{ display: "flex-inline", float: "right", height: "200px", width: "200px", overflowY: "scroll" }}>
                             <h6>Schedule:</h6>
-                            {/* <Agenda eventQuery={`/users/${this.props.userInfo.id}/calendarView?$orderby=start/dateTime&startdatetime=2020-11-22T15:00:00.000Z&enddatetime=2020-11-25T15:00:00.000Z`} /> */}
-                            {/* <Agenda eventQuery="/me/calendarview?$orderby=start/dateTime&startdatetime=2020-11-22T15:00:00.000Z&enddatetime=2020-11-25T15:00:00.000Z" /> */}
-                            <Agenda />
+                            <Agenda eventQuery={`/users/${this.props.userInfo.id}/calendarview?$orderby=start/dateTime&startdatetime=${eventStartTime.toUTCString()}&enddatetime=${eventEndTime.toUTCString()}` + " | calendars.read calendars.read.shared"} />
                         </div>
                     </div>
                 </Popup >

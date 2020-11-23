@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Agenda, Login } from '@microsoft/mgt-react';
+import { Login } from '@microsoft/mgt-react';
 // <WelcomeSnippet>
 import React from 'react';
 import {
-  Button,
   Jumbotron
 } from 'reactstrap';
 
@@ -47,7 +46,6 @@ export default class Welcome extends React.Component<WelcomeProps, WelcomeState>
             user={this.props.user}
             authButtonMethod={this.props.authButtonMethod} />
         </Jumbotron>
-        <Agenda days={5} />
       </>
 
     );
