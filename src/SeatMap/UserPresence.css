@@ -49,3 +49,7 @@
     align-items: center;
     display: inline-flex;
 }
+
+mgt-agenda {
+    --agenda-header-font-size: 13px;
+}

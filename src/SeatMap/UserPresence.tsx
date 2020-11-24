@@ -1,6 +1,6 @@
 import { Tooltip as ReactTooltip } from '@material-ui/core';
 import MailOutline from '@material-ui/icons/MailOutline';
-import { Agenda } from '@microsoft/mgt-react';
+import { Agenda, Person } from '@microsoft/mgt-react';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
@@ -92,7 +92,7 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
         const center: [number, number] = [this.props.userInfo.seatPosition.y, this.props.userInfo.seatPosition.x]
         const eventStartTime = new Date();
         const eventEndTime = new Date();
-        eventEndTime.setDate(eventStartTime.getDate() + 2)
+        eventEndTime.setDate(eventStartTime.getDate() + 3)
         return (
             <Circle
                 ref={this.circleRef}
@@ -104,7 +104,7 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
             >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
                 <Popup maxWidth={500}>
-                    <div style={{ flex: "auto", height: "200px", width: "350px" }}>
+                    <div style={{ flex: "auto", height: "200px", width: "380px" }}>
                         <div style={{ display: "flex-inline", float: "left", width: "150px" }}>
                             {this.props.userInfo.userDetail?.dept ?
                                 <div className="sub-title">{this.props.userInfo.userDetail.dept}</div> :
@@ -145,9 +145,12 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                                 </ReactTooltip>
                             </div>
                         </div>
-                        <div style={{ display: "flex-inline", float: "right", height: "200px", width: "200px", overflowY: "scroll" }}>
+                        <div style={{
+                            display: "flex-inline", float: "right", height: "200px", width: "230px", padding: "5px", overflowY: "auto"
+                        }}>
                             <h6>Schedule:</h6>
-                            <Agenda eventQuery={`/users/${this.props.userInfo.id}/calendarview?$orderby=start/dateTime&startdatetime=${eventStartTime.toUTCString()}&enddatetime=${eventEndTime.toUTCString()}` + " | calendars.read calendars.read.shared"} />
+                            <Agenda groupByDay={true} eventQuery={`/users/${this.props.userInfo.id}/calendarview?$orderby=start/dateTime&startdatetime=${eventStartTime.toUTCString()}&enddatetime=${eventEndTime.toUTCString()}` + " | calendars.read calendars.read.shared"}>
+                            </Agenda>
                         </div>
                     </div>
                 </Popup >
