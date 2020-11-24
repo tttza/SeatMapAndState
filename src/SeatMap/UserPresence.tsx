@@ -1,6 +1,6 @@
 import { Tooltip as ReactTooltip } from '@material-ui/core';
 import MailOutline from '@material-ui/icons/MailOutline';
-import { Agenda, Person } from '@microsoft/mgt-react';
+import { Agenda } from '@microsoft/mgt-react';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
@@ -24,7 +24,7 @@ interface UserPresenceState {
 
 
 
-export class UserPresence extends React.Component<UserPresenceProps, UserPresenceState> {
+export class UserPresence extends React.PureComponent<UserPresenceProps, UserPresenceState> {
 
     circleRef?: React.RefObject<any> = React.createRef();
     circleColor: string = "grey";
@@ -103,7 +103,7 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                 radius={25}
             >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
-                <Popup maxWidth={500}>
+                <Popup maxWidth={500} autoPan={false}>
                     <div style={{ flex: "auto", height: "200px", width: "380px" }}>
                         <div style={{ display: "flex-inline", float: "left", width: "150px" }}>
                             {this.props.userInfo.userDetail?.dept ?
@@ -129,14 +129,14 @@ export class UserPresence extends React.Component<UserPresenceProps, UserPresenc
                             </table>
                             <div className="action-list">
                                 <ReactTooltip title={<h6>Teamsでチャットする</h6>}>
-                                    <a target="_blank"
+                                    <a target="_blank" rel="noreferrer"
                                         href={`https://teams.microsoft.com/l/chat/0/0?users=${this.props.userInfo.mail}`}
                                     >
                                         <img src="icons/Teams-24x24.png" />
                                     </a>
                                 </ReactTooltip>
                                 <ReactTooltip title={<h6>メールする</h6>} >
-                                    <a target="_blank"
+                                    <a target="_blank" rel="noreferrer"
                                         href={`mailto:${this.props.userInfo.mail}`}
                                         data-tip="メールする"
                                     >
@@ -170,7 +170,7 @@ export class UserPhoto extends React.Component<{ token: string, id: string, user
         super(props);
         this.state = { loading: true, image: null };
     };
-    componentWillMount() {
+    componentDidMount() {
         getUserPhoto(this.props.token, this.props.id)
             .then(response => {
                 if (response != null) {

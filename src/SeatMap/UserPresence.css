@@ -35,7 +35,19 @@
 
 .user-info-table {
     margin: 10px;
-    font-size: large;
+    font-size: medium;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+}
+
+.user-info-table tr {
+    text-align: left;
+}
+
+
+.user-info-table th {
+    text-align: right;
 }
 
 .action-list {
