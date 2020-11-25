@@ -96,15 +96,15 @@ export class UserPresence extends React.PureComponent<UserPresenceProps, UserPre
         return (
             <Circle
                 ref={this.circleRef}
-                key="persence"
+                key="presence"
                 center={center}
                 fillColor={this.circleColor}
                 color={this.circleColor}
                 radius={25}
             >
                 <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
-                <Popup maxWidth={500} autoPan={false}>
-                    <div style={{ flex: "auto", height: "200px", width: "380px" }}>
+                <Popup maxWidth={500} maxHeight={500} autoPan={false}>
+                    <div style={{ flex: "auto", minHeight: "200px", maxHeight: "500px", width: "380px" }} className="clearfix">
                         <div style={{ display: "flex-inline", float: "left", width: "150px" }}>
                             {this.props.userInfo.userDetail?.dept ?
                                 <div className="sub-title">{this.props.userInfo.userDetail.dept}</div> :
@@ -146,10 +146,10 @@ export class UserPresence extends React.PureComponent<UserPresenceProps, UserPre
                             </div>
                         </div>
                         <div style={{
-                            display: "flex-inline", float: "right", height: "200px", width: "230px", padding: "5px", overflowY: "auto"
+                            float: "right", height: "300px", width: "230px", padding: "5px", overflowY: "auto"
                         }}>
                             <h6>Schedule:</h6>
-                            <Agenda groupByDay={true} eventQuery={`/users/${this.props.userInfo.id}/calendarview?$orderby=start/dateTime&startdatetime=${eventStartTime.toUTCString()}&enddatetime=${eventEndTime.toUTCString()}` + " | calendars.read calendars.read.shared"}>
+                            <Agenda groupByDay={true} eventQuery={`/users/${this.props.userInfo.userPrincipalName}/calendarview?$orderby=start/dateTime&startdatetime=${eventStartTime.toUTCString()}&enddatetime=${eventEndTime.toUTCString()}` + " | calendars.read calendars.read.shared"}>
                             </Agenda>
                         </div>
                     </div>

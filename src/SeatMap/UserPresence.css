@@ -65,3 +65,25 @@
 mgt-agenda {
     --agenda-header-font-size: 13px;
 }
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+
+/* IE7,MacIE5 */
+.clearfix {
+    display: inline-block;
+}
+
+/* WinIE6 below, Exclude MacIE5 \*/
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block;
+}

@@ -40,15 +40,12 @@ interface UserDefailInfo {
 export interface UserInfo {
   dataLoaded: boolean;
   id: string;
+  userPrincipalName: string;
   displayName: string;
-
   mail: string;
-
   seatId: string;
-
   userDetail?: UserDefailInfo;
   seatPosition: SeatPosition;
-
 }
 
 
@@ -78,7 +75,7 @@ class SeatMap extends React.PureComponent<AuthComponentProps, SeatMapState> {
     users = users.filter(user => !user.id.match("@"))
 
     users.forEach((user) => {
-      const seatId = userTargetConfig.find(u => u.email === user.mail)?.seat;
+      const seatId = userTargetConfig.find(u => u.email === user.userPrincipalName)?.seat;
       if (seatId == null) { return; }
       const seatPosition = this.seatPositionService.getSeatPosition(seatId);
       if (seatPosition == null) { return; }
@@ -88,6 +85,7 @@ class SeatMap extends React.PureComponent<AuthComponentProps, SeatMapState> {
         displayName: user.surname,
         seatPosition: seatPosition,
         mail: user.mail,
+        userPrincipalName: user.userPrincipalName,
         userDetail: {
           fullname: user.displayName,
           dept: user.dept,
