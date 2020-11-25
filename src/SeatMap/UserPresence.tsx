@@ -102,7 +102,7 @@ export class UserPresence extends React.PureComponent<UserPresenceProps, UserPre
                 color={this.circleColor}
                 radius={25}
             >
-                <Tooltip key="persence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
+                <Tooltip key="presence" permanent={true} direction={"center"} offset={[0, 0]} >{this.props.userInfo.displayName}</Tooltip>
                 <Popup maxWidth={500} maxHeight={500} autoPan={false}>
                     <div style={{ flex: "auto", minHeight: "200px", maxHeight: "500px", width: "380px" }} className="clearfix">
                         <div style={{ display: "flex-inline", float: "left", width: "150px" }}>
